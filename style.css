@@ -1,0 +1,89 @@
+/* 手机优先：默认样式按手机写，大屏只在最后用 media query 微调 */
+
+:root {
+  --bg: #faf6f0;
+  --card: #ffffff;
+  --text: #2b2420;
+  --muted: #8a7f76;
+  --accent: #b5652b;   /* 烤面包的颜色 */
+  --bread: #e3b27a;
+  --ref: #d9d4ce;
+  --radius: 16px;
+  --space: 16px;
+  font-size: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: calc(var(--space) * 1.5) var(--space) calc(var(--space) * 3);
+  padding-bottom: max(calc(var(--space) * 3), env(safe-area-inset-bottom));
+}
+
+.hero h1 { font-size: 1.75rem; margin: 0 0 4px; }
+.subtitle { color: var(--muted); margin: 0 0 var(--space); }
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: var(--space);
+  margin-bottom: var(--space);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.field { display: block; margin-bottom: var(--space); }
+.field span { display: block; font-size: 0.875rem; color: var(--muted); margin-bottom: 6px; }
+
+/* 输入框字号 ≥16px，避免 iPhone 自动放大页面 */
+input, select {
+  width: 100%;
+  font-size: 1rem;
+  padding: 12px;
+  border: 1px solid #e5ded6;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+}
+
+.btn {
+  width: 100%;
+  min-height: 48px; /* 手指好点的高度 */
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
+}
+.btn:active { transform: scale(0.98); }
+
+.result-title { font-size: 1.125rem; margin: 0 0 var(--space); }
+
+.visual svg { width: 100%; height: auto; display: block; margin-bottom: var(--space); }
+.visual .bread { fill: var(--bread); }
+.visual .ref { fill: var(--ref); }
+.visual .ref-label { font-size: 1.2px; fill: var(--muted); text-anchor: middle; dominant-baseline: middle; }
+
+.stats { list-style: none; padding: 0; margin: 0; }
+.stats li { display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #f0ebe5; }
+.stats .label { color: var(--muted); }
+.stats .value { font-weight: 600; }
+
+.note { font-size: 0.8125rem; color: var(--muted); margin: var(--space) 0 0; }
+.footer { text-align: center; font-size: 0.75rem; color: var(--muted); }
+
+/* 平板 / 电脑上稍微放宽 */
+@media (min-width: 768px) {
+  .page { padding-top: calc(var(--space) * 3); }
+}

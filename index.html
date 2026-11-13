@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 手机优先：让页面宽度等于手机屏幕宽度，不自动缩放 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>这个面包有多大？</title>
+  <meta name="description" content="输入克数，看看面包实际有多大、能切几片、划不划算。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+
+    <header class="hero">
+      <h1>这个面包有多大？</h1>
+      <p class="subtitle">网上只写克数？输入进来，看看它到底多大、够吃几顿。</p>
+    </header>
+
+    <!-- ① 输入区 -->
+    <form id="bread-form" class="card" autocomplete="off">
+      <label class="field">
+        <span>面包种类</span>
+        <select id="bread-type" name="type"></select>
+      </label>
+
+      <label class="field">
+        <span>重量（克）</span>
+        <input id="grams" name="grams" type="number" inputmode="decimal" min="1" placeholder="例如 500" required />
+      </label>
+
+      <label class="field">
+        <span>价格（S$，可不填）</span>
+        <input id="price" name="price" type="number" inputmode="decimal" min="0" step="0.01" placeholder="例如 12" />
+      </label>
+
+      <button type="submit" class="btn">看看有多大</button>
+    </form>
+
+    <!-- ② 结果区：提交前隐藏 -->
+    <section id="result" class="card result" hidden>
+      <h2 class="result-title">大约这么大</h2>
+
+      <!-- 尺寸图：由 app.js 生成 SVG，面包轮廓 + 参照物 -->
+      <div id="visual" class="visual" aria-live="polite"></div>
+
+      <ul class="stats">
+        <li><span class="label">尺寸</span><span id="stat-size" class="value">—</span></li>
+        <li><span class="label">大约能切</span><span id="stat-slices" class="value">—</span></li>
+        <li><span class="label">每 100g</span><span id="stat-price" class="value">—</span></li>
+      </ul>
+
+      <p class="note">尺寸是按面包种类的平均密度估算的，实际会因 bakery 和做法而不同。</p>
+    </section>
+
+    <footer class="footer">
+      <p>A tiny side project by Yiwei · 数据持续校准中</p>
+    </footer>
+  </main>
+
+  <!-- 先加载数据，再加载逻辑 -->
+  <script src="data/breads.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
