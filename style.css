@@ -1,11 +1,11 @@
-/* 手机优先：默认样式按手机写，大屏只在最后用 media query 微调 */
+/* Mobile first: base styles target phones; larger screens are tweaked in a media query at the end */
 
 :root {
   --bg: #faf6f0;
   --card: #ffffff;
   --text: #2b2420;
   --muted: #8a7f76;
-  --accent: #b5652b;   /* 烤面包的颜色 */
+  --accent: #b5652b;   /* toasted-crust colour */
   --bread: #e3b27a;
   --ref: #d9d4ce;
   --radius: 16px;
@@ -19,7 +19,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
 }
@@ -45,7 +45,7 @@ body {
 .field { display: block; margin-bottom: var(--space); }
 .field span { display: block; font-size: 0.875rem; color: var(--muted); margin-bottom: 6px; }
 
-/* 输入框字号 ≥16px，避免 iPhone 自动放大页面 */
+/* Inputs at ≥16px so iPhone Safari doesn't auto-zoom */
 input, select {
   width: 100%;
   font-size: 1rem;
@@ -58,7 +58,7 @@ input, select {
 
 .btn {
   width: 100%;
-  min-height: 48px; /* 手指好点的高度 */
+  min-height: 48px; /* comfortable tap height */
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
@@ -83,7 +83,7 @@ input, select {
 .note { font-size: 0.8125rem; color: var(--muted); margin: var(--space) 0 0; }
 .footer { text-align: center; font-size: 0.75rem; color: var(--muted); }
 
-/* 平板 / 电脑上稍微放宽 */
+/* Slightly roomier on tablet / desktop */
 @media (min-width: 768px) {
   .page { padding-top: calc(var(--space) * 3); }
 }

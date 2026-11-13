@@ -1,29 +1,29 @@
-// 这个面包有多大？— 主逻辑
+// How Big Is This Bread? — main logic
 // ------------------------------------------------------------
-// 流程：读取输入 → 算体积 → 按形状反推长宽高 → 算片数和单价 → 画图
+// Flow: read inputs → volume → work back to length/width/height → slices & unit price → draw
 
-const SLICE_THICKNESS_CM = 1.5; // 一片面包大约 1.5cm 厚（可以之后让用户调）
+const SLICE_THICKNESS_CM = 1.5; // A typical slice is ~1.5 cm thick (could become a user setting)
 
-// 参照物：iPhone 正面尺寸（cm）。之后可以换成手掌、信用卡等
+// Reference object: front of an iPhone (cm). Could later be a hand, credit card, etc.
 const REFERENCE = { name: "iPhone", length: 14.7, width: 7.2 };
 
-// ---------- 1. 几何：体积 → 尺寸 ----------
-// 每种形状给一个函数：输入体积 cm³ 和比例，返回 { length, width, height }（cm）
+// ---------- 1. Geometry: volume → dimensions ----------
+// Each shape takes a volume in cm³ plus its ratios and returns { length, width, height } in cm
 const SHAPES = {
-  // 圆顶（圆形 boule）：近似成半个椭球，V = π · d² · h / 6
+  // Round dome (boule): approximated as half an ellipsoid, V = π · d² · h / 6
   dome(volume, { heightToWidth }) {
     const d = Math.cbrt((6 * volume) / (Math.PI * heightToWidth));
     return { length: d, width: d, height: d * heightToWidth };
   },
 
-  // 椭圆圆顶（batard、法棍）：V = π · L · W · H / 6
+  // Oval dome (batard, baguette): V = π · L · W · H / 6
   ovalDome(volume, { widthToLength, heightToWidth }) {
     const L = Math.cbrt((6 * volume) / (Math.PI * widthToLength * widthToLength * heightToWidth));
     const W = L * widthToLength;
     return { length: L, width: W, height: W * heightToWidth };
   },
 
-  // 长方体（吐司）：V = L · W · H
+  // Box (sandwich loaf): V = L · W · H
   box(volume, { widthToLength, heightToWidth }) {
     const L = Math.cbrt(volume / (widthToLength * widthToLength * heightToWidth));
     const W = L * widthToLength;
@@ -39,11 +39,11 @@ function estimate(bread, grams, price) {
   return { volume, size, slices, pricePer100g };
 }
 
-// ---------- 2. 画图：俯视轮廓 + 参照物 ----------
-// TODO（Yiwei）：这里是最值得你发挥设计的地方
-//   - 现在只是简单的俯视图，可以加侧视图（看高度）
-//   - 参照物可以做成可切换（手掌 / iPhone / 信用卡）
-//   - 之后可以做“真实 1:1 尺寸”模式（需要先用信用卡校准屏幕）
+// ---------- 2. Drawing: top-down outline + reference object ----------
+// TODO (Yiwei): this is where the design work really happens
+//   - Right now it's a simple top view; add a side view to show height
+//   - Make the reference object switchable (hand / iPhone / credit card)
+//   - Later: a true 1:1 "actual size" mode (calibrate the screen with a credit card first)
 function renderVisual(bread, size) {
   const pad = 2; // cm
   const viewW = size.length + REFERENCE.width + pad * 3;
@@ -59,16 +59,16 @@ function renderVisual(bread, size) {
     <rect x="${refX}" y="${pad}" width="${REFERENCE.width}" height="${REFERENCE.length}" rx="1" class="ref" />
     <text x="${refX + REFERENCE.width / 2}" y="${pad + REFERENCE.length / 2}" class="ref-label">${REFERENCE.name}</text>`;
 
-  return `<svg viewBox="0 0 ${viewW} ${viewH}" role="img" aria-label="面包与${REFERENCE.name}的大小对比">
+  return `<svg viewBox="0 0 ${viewW} ${viewH}" role="img" aria-label="Bread size compared with an ${REFERENCE.name}">
     ${breadShape}${refShape}
   </svg>`;
 }
 
-// ---------- 3. 页面交互 ----------
+// ---------- 3. Page interaction ----------
 const form = document.getElementById("bread-form");
 const typeSelect = document.getElementById("bread-type");
 
-// 把数据里的面包种类填进下拉框
+// Fill the dropdown with the bread types from the data file
 window.BREADS.forEach((b) => {
   const opt = document.createElement("option");
   opt.value = b.id;
@@ -79,7 +79,7 @@ window.BREADS.forEach((b) => {
 const fmt = (n) => n.toFixed(0);
 
 form.addEventListener("submit", (event) => {
-  event.preventDefault(); // 不刷新页面
+  event.preventDefault(); // Don't reload the page
 
   const bread = window.BREADS.find((b) => b.id === typeSelect.value);
   const grams = parseFloat(document.getElementById("grams").value);
@@ -90,10 +90,10 @@ form.addEventListener("submit", (event) => {
 
   document.getElementById("visual").innerHTML = renderVisual(bread, r.size);
   document.getElementById("stat-size").textContent =
-    `长 ${fmt(r.size.length)} × 宽 ${fmt(r.size.width)} × 高 ${fmt(r.size.height)} cm`;
-  document.getElementById("stat-slices").textContent = `约 ${r.slices} 片`;
+    `${fmt(r.size.length)} × ${fmt(r.size.width)} × ${fmt(r.size.height)} cm`;
+  document.getElementById("stat-slices").textContent = `about ${r.slices}`;
   document.getElementById("stat-price").textContent =
-    r.pricePer100g ? `S$${r.pricePer100g.toFixed(2)}` : "填价格后显示";
+    r.pricePer100g ? `S$${r.pricePer100g.toFixed(2)}` : "Add a price to see this";
 
   const result = document.getElementById("result");
   result.hidden = false;
