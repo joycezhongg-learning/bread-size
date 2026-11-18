@@ -38,7 +38,11 @@
 
     <!-- 2. Result: hidden until the form is submitted -->
     <section id="result" class="card result" hidden>
-      <h2 class="result-title">Roughly this big</h2>
+      <!-- Headline: size category badge (sourdough only) + plain-language name. app.js fills both -->
+      <h2 class="result-title">
+        <span id="size-badge" class="size-badge" aria-hidden="true" hidden></span>
+        <span id="result-heading">Roughly this big</span>
+      </h2>
 
       <!-- Size visual: app.js draws an SVG of the loaf next to a reference object -->
       <div id="visual" class="visual" aria-live="polite"></div>

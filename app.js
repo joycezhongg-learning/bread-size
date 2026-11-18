@@ -39,6 +39,15 @@ function estimate(bread, grams, price) {
   return { volume, size, slices, pricePer100g };
 }
 
+// Size category (S / M / L / XL) from the bread's sizeBands in data/breads.js.
+// Bands are ordered smallest → largest; take the first one the weight is under.
+// The last band has no "under", so it catches everything heavier.
+// Breads without sizeBands return null (no category shown).
+function sizeBand(bread, grams) {
+  if (!bread.sizeBands) return null;
+  return bread.sizeBands.find((band) => band.under === undefined || grams < band.under);
+}
+
 // ---------- 2. Drawing: top-down outline + reference object ----------
 // TODO (Yiwei): this is where the design work really happens
 //   - Right now it's a simple top view; add a side view to show height
@@ -87,6 +96,14 @@ form.addEventListener("submit", (event) => {
   if (!bread || !(grams > 0)) return;
 
   const r = estimate(bread, grams, price);
+
+  // Headline: badge + name for sourdough, plain heading for everything else
+  const band = sizeBand(bread, grams);
+  const badge = document.getElementById("size-badge");
+  badge.hidden = !band;
+  badge.textContent = band ? band.label : "";
+  document.getElementById("result-heading").textContent =
+    band ? `${band.name} loaf` : "Roughly this big";
 
   document.getElementById("visual").innerHTML = renderVisual(bread, r.size);
   document.getElementById("stat-size").textContent =
