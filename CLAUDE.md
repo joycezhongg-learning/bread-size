@@ -16,7 +16,7 @@ She writes the code herself; Claude is a coach and pair programmer.
 - When she asks "how", teach the concept first, then show the minimal code.
 
 ## Technical constraints
-- Plain HTML / CSS / vanilla JS. No frameworks, no build step, no npm — must work by opening index.html and on GitHub Pages.
+- Plain HTML / CSS / vanilla JS. No frameworks, no build step, no npm — must work by opening index.html and when deployed as a static site on Vercel.
 - Mobile first: design for ~375px wide, then enhance for larger screens.
 - Data lives in `data/breads.js` (a JS file, not JSON, so it works when opened via file://).
 - All specific-volume numbers are estimates until marked `verified: true`.

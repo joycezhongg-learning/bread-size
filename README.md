@@ -23,11 +23,16 @@ data/breads.js   Bread types and specific-volume data (to be calibrated)
 Open `index.html` in a browser.
 To test on your phone: run `python3 -m http.server 8000` on your computer, connect your phone to the same Wi-Fi, and open `http://<your-computer's-IP>:8000`.
 
-## Deploy (GitHub Pages, free)
+## Deploy (Vercel, free)
+
+The site will be deployed on [Vercel](https://vercel.com). It's a static site with no build step, so there's nothing to configure.
 
 1. Push the code to GitHub
-2. Repo → Settings → Pages → Source: `main` branch, `/ (root)`
-3. After a minute or two the site is live at `https://<username>.github.io/<repo-name>/`
+2. On Vercel: **Add New → Project**, then import this repo
+3. Framework Preset: **Other**. Leave the build command empty and the output directory as the root (`./`)
+4. Click **Deploy**. The site goes live at `https://<project-name>.vercel.app`
+
+After that, every push to `main` redeploys automatically, and every other branch or pull request gets its own preview URL.
 
 ## Roadmap
 
