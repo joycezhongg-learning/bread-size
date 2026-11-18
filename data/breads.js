@@ -17,6 +17,12 @@ window.BREADS = [
     specificVolume: 3.0,
     shape: "dome",
     ratios: { heightToWidth: 0.55 },
+    sizeBands: [
+      { label: "S", name: "Small", under: 500 },
+      { label: "M", name: "Medium", under: 750 },
+      { label: "L", name: "Large", under: 1000 },
+      { label: "XL", name: "Extra large" }, // no "under" = everything heavier
+    ],
     verified: false,
     source: "Midpoint of published range (2.1–3.4 cm³/g)",
   },
@@ -26,6 +32,12 @@ window.BREADS = [
     specificVolume: 3.0,
     shape: "ovalDome",
     ratios: { widthToLength: 0.55, heightToWidth: 0.6 },
+    sizeBands: [
+      { label: "S", name: "Small", under: 500 },
+      { label: "M", name: "Medium", under: 750 },
+      { label: "L", name: "Large", under: 1000 },
+      { label: "XL", name: "Extra large" }, // no "under" = everything heavier
+    ],
     verified: false,
     source: "Same as above",
   },
